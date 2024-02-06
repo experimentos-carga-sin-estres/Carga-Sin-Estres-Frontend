@@ -14,6 +14,7 @@ export class CompanySettingsComponent {
   companySettingsForm: FormGroup;
   errorMessage: string = '';
   id: any;
+  company: any = '';
 
   constructor(private fb: FormBuilder, private api: CargaSinEstresDataService,
      private route: ActivatedRoute, private router: Router, private _snackBar: MatSnackBar) {//private http: HttpClient
@@ -36,11 +37,21 @@ export class CompanySettingsComponent {
     this.route.pathFromRoot[1].url.subscribe(
       url => {
         this.id = url[1].path;
+        this.getCompany(this.id);
       }
     ); 
   }
 
   ngOnInit(){}
+
+  getCompany(id: any) {
+    this.api.getCompanyById(id).subscribe(
+      (res: any) => 
+      {
+        this.company = res;
+      }
+    );
+  }
 
   onSubmit(){
     this.errorMessage = '';
